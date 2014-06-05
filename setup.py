@@ -9,8 +9,8 @@ with open(path.join(here, 'DESCRIPTION.rst'), encoding='utf-8') as f:
 
 setup(
         name='pit',
-        version='0.0.1',
-        description='Command-line Python',
+        version='0.10.0',
+        description='Python stream filter',
         long_description=long_description,
         url='https://github.com/samzhang111/pit',
         author='Sam Zhang',

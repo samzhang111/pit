@@ -4,12 +4,20 @@ import sys
 import errno
 import argparse
 
-def run(cmd, args, line='', _=''):
-    if args.evaluate:
+def run(cmd, args, text=''):
+    if args.delimiter:
+        _ = text.split(args.delimiter)
+    else:
+        _ = text
+
+    if args.filter:
         out = eval(cmd)
-        if args.filter and out:
-            sys.stdout.write(line)
-        elif out:
+        if out:
+            sys.stdout.write(text + '\n')
+
+    elif args.expression:
+        out = eval(cmd)
+        if out:
             sys.stdout.write(str(out) + '\n')
     else:
         try:
@@ -20,11 +28,12 @@ def run(cmd, args, line='', _=''):
                 quit()
 
 def init_args():
-    parser = argparse.ArgumentParser(description='Command line operations')
-    parser.add_argument('-e', '--evaluate', action='store_true', help='Evaluate; evaluate line as expression rather than command.')
-    parser.add_argument('-f', '--filter', action='store_true', help='Filter; print line if expression evaluates to true.')
-    parser.add_argument('-fs', '--field-separator', help='Field separator; if included, _ becomes an array split by fs.')
-    parser.add_argument('code', help='Command to run; line is stored in _ (underscore) variable')
+    parser = argparse.ArgumentParser(description='pit: a stream filter for Python')
+    parser.add_argument('-e', '--expression', action='store_true', help='Evaluate line as expression rather than command.')
+    parser.add_argument('-f', '--filter', action='store_true', help='Only print lines that fulfill the expression (assumes -e).')
+    parser.add_argument('-d', '--delimiter', help='If included, _ becomes an array split by d.')
+    parser.add_argument('-p', '--page', action='store_true', help='Store entire page rather than individual lines into _.')
+    parser.add_argument('code', help='Command/expression to run; line is stored in _ (underscore) variable')
     return parser.parse_args()
 
 def write_to_stdout(out):
@@ -42,6 +51,11 @@ def main():
     if sys.stdin.isatty():
         run(args.code, args)
         quit()
+    
+    if args.page:
+        page = ''.join(sys.stdin.readlines())
+        run(args.code, args, page)
+        quit()
 
     for line in sys.stdin:
         if len(line) == 0:
@@ -49,14 +63,7 @@ def main():
             quit()
 
         line = line.strip()
-        if args.field_separator:
-            _ = line.split(args.field_separator)
-            cmd = args.code
-        else:
-            repr_line = repr(line)
-            cmd = args.code.replace('_', format(repr_line))
-
-        run(cmd, args, line)
+        run(args.code, args, line)
 
 if __name__ == '__main__':
     main()
