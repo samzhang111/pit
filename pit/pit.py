@@ -23,7 +23,7 @@ def init_args():
     parser = argparse.ArgumentParser(description='Command line operations')
     parser.add_argument('-e', '--evaluate', action='store_true', help='Evaluate; evaluate line as expression rather than command.')
     parser.add_argument('-f', '--filter', action='store_true', help='Filter; print line if expression evaluates to true.')
-    parser.add_argument('-fs', '--field-separator', default=',', help='Field separator; if included, _ becomes an array split by fs.')
+    parser.add_argument('-fs', '--field-separator', help='Field separator; if included, _ becomes an array split by fs.')
     parser.add_argument('code', help='Command to run; line is stored in _ (underscore) variable')
     return parser.parse_args()
 
@@ -56,7 +56,7 @@ def main():
             repr_line = repr(line)
             cmd = args.code.replace('_', format(repr_line))
 
-        run(cmd, args, line, _)
+        run(cmd, args, line)
 
 if __name__ == '__main__':
     main()
