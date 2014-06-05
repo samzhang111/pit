@@ -1,6 +1,6 @@
 ### Pit-- a Python command line piping tool
 
-Pit is a tool for making it easier to run Python on the command line.
+Pit is a wrapper around Python that makes it easier to use Python in command line workflows.
 It is designed to be a swiss army knife for people who aren't as familiar with
 (or who don't want to deal with) the entire array of Unix utilities.
 
