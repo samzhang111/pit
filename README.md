@@ -17,19 +17,23 @@ sudo python setup.py install
 ----
 ##Example uses:
 
-1. Lines of standard input can be split by a delimiter (-d delimiter):
+1. Quick command line calculator:
+
+    >pit '.97**5'
+
+2. Lines of standard input can be split by a delimiter (-d delimiter):
 
     >cat document.csv | pit -d , 'len(_[0])'
 
-2. Standard input can be read as an entire page (-p):
+3. Standard input can be read as an entire page (-p):
 
     >cat document.txt | pit -p '_[::-1]'
 
-3. pit can filter incoming text literally. -f (filter) only prints lines that fulfill a boolean expression:
+4. pit can filter incoming text literally. -f (filter) only prints lines that fulfill a boolean expression:
 
     >cat document.csv | pit -f 'len(_) > 10'
 
-4. pit can be used to count unique occurences of lines in a document. -b allows for initialization code to be run before the loop, and -e executes, rather than evaluates, the code. An optional positional variable after the main code loop is executed after the loop is over:
+5. pit can be used to count unique occurences of lines in a document. -b allows for initialization code to be run before the loop, and -e executes, rather than evaluates, the code. An optional positional variable after the main code loop is executed after the loop is over:
 
     >cat redundant.txt | pit -b 'a=set()' 'a.add(_)' 'print len(a)'
 
