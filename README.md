@@ -29,7 +29,7 @@ sudo python setup.py install
 
     >cat document.csv | pit -f 'len(_) > 10'
 
-4. pit can be used to count unique occurences of lines in a document. It is faster than piping into sort | uniq | wc. -b allows for code to be run before the loop, and -e executes, rather than evaluates, the code. An optional positional variable after the main code loop is executed after the loop is over:
+4. pit can be used to count unique occurences of lines in a document. -b allows for initialization code to be run before the loop, and -e executes, rather than evaluates, the code. An optional positional variable after the main code loop is executed after the loop is over:
 
     >cat redundant.txt | pit -b 'a=set()' 'a.add(_)' 'print len(a)'
 

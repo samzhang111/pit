@@ -44,5 +44,3 @@ The -b flag (--begin) allows initialization code to be set up.
 An optional positional argument after the main code section is run after the input ends.
 ::
     cat redundant.txt | pit -e -b 'a=set()' 'a.add(_)' 'print len(a)'
-
-(This runs roughly twice as fast as doing 'sort redundant.txt | uniq | wc')
