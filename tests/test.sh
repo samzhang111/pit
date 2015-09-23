@@ -1,2 +1,2 @@
-cat sample.csv | pit 'print len(_)'
-cat sample.csv | pit -f '_.split(",")[0].endswith("ff")'
+cat sample.csv | pit -p 'base64.encodestring(_)[:100]'
+cat sample.csv | pit -d , -f '_[0].endswith("ff")'

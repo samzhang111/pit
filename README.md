@@ -1,25 +1,25 @@
 # pit-- Python as a stream filter
 
-Version 0.2
+Version 0.3
 
-pit is a stream filter for Python that makes it easier to use Python in command line workflows.
-It is designed to be a swiss army knife for people who aren't as familiar with
-(or who don't want to deal with) the entire array of Unix utilities.
+pit is a stream filter for Python that makes it easier to use Python
+in command line workflows.  It is designed to be a swiss army knife
+for people who aren't as familiar with (or who don't want to deal with)
+the entire array of Unix utilities. By default, lines of standard input
+are piped into the underscore variable.
 
-    >cat document.txt | pit 'len(_)'
-
-By default, lines of standard input are piped into the underscore variable _, and the command argument that pit takes is evaluated as an expression.
+    >cat document.txt | pit 'math.log(len(_))'
 
 ## Installation:
 
 sudo python setup.py install
 
 ----
-##Example uses:
+##Instructions and example uses:
 
 1. Quick command line calculator:
 
-    >pit '.97**5'
+    >pit '.97**5 + random.random()'
 
 2. Lines of standard input can be split by a delimiter (-d delimiter):
 
@@ -27,11 +27,12 @@ sudo python setup.py install
 
 3. Standard input can be read as an entire page (-p):
 
-    >cat document.txt | pit -p '_[::-1]'
+    >cat document.txt | pit -p 'base64.encodestring(_)'
 
 4. pit can filter incoming text literally. -f (filter) only prints lines that fulfill a boolean expression:
 
     >cat document.csv | pit -f 'len(_) > 10'
+    >cat document.csv | pit -f 'random.random() > 0.9'
 
 5. pit can be used to count unique occurences of lines in a document. -b allows for initialization code to be run before the loop, and -e executes, rather than evaluates, the code. An optional positional variable after the main code loop is executed after the loop is over:
 
@@ -40,9 +41,13 @@ sudo python setup.py install
 ## Known Issues:
 
 - Newlines are stripped from standard input by calling strip(). This may cause collatoral damage on whitespace formatting.
-- Indexing into the underscore variable feels awkward. Instead, change delimiting so that the raw array is in _, but individual elements are available at _0, _1, etc.
 
 ## Changelog:
+### What's new in version 0.3
+* Autoimport support with [autoimp](github.com/autoimp). Dependency frozen at 1.0.4 for now.
+* Runs on Python 3 
+* Version flag
+
 ### What's new in version 0.2
 
 * NOTE: expression evaluation is now default; -e now stands for _execute_ (necessary for variable assignment and multiline statements)
